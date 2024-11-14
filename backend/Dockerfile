@@ -1,20 +1,24 @@
-###  Erasmo Cardoso
-# Node.js 
-FROM node:16-alpine
+### Erasmo Cardoso
+#  Dockerfile TypeScript
+FROM node:18
 
-RUN apk add --no-cache python3 make g++ bash
-
+# diretório de trabalho 
 WORKDIR /usr/src/app
 
+#  package.json e package-lock.json
 COPY package*.json ./
 
+#  dependências
 RUN npm install
 
+# Copiar o restante do código para o container
 COPY . .
 
-RUN npm run build
+# Rodar o build do TypeScript
+RUN npm run build  
 
+# Expor
 EXPOSE 3000
 
 # App
-CMD ["npm", "start"]
+CMD ["node", "dist/app.js"]

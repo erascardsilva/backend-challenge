@@ -2,8 +2,8 @@
 ## TESTE API
 
 #################### Users 
-### Get all users
-  OK
+### Get all users  OK
+  
 GET http://localhost:3000/api/users
 Accept: application/json
 
@@ -13,7 +13,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "username": "Erasmo C",
+  "username": "Erasmo Card",
   "email": "erasmo@teste.com",
   "password_hash": "3727"
  
@@ -32,7 +32,7 @@ Accept: application/json
 }
 
 ### Delete user  OK
-DELETE http://localhost:3000/api/users/2
+DELETE http://localhost:3000/api/users/21
 Accept: application/json
 
 

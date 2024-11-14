@@ -1,0 +1,24 @@
+##  Erasmo Cardoso
+# Nome do cluster
+cluster.name: "docker-cluster"
+node.name: "node-1"
+
+# Caminhos
+path.data: /usr/share/elasticsearch/data
+path.logs: /usr/share/elasticsearch/logs
+
+# Configuração de rede
+network.host: 0.0.0.0
+http.port: 9200
+transport.port: 9300
+
+# Desabilitar segurança
+xpack.security.enabled: false
+# Desabilitar SSL
+xpack.security.http.ssl.enabled: false
+
+# Configuração para operação de nó único
+discovery.type: single-node
+
+# Habilitar script Painless 
+script.painless.regex.enabled: true
