@@ -1,0 +1,49 @@
+###  Erasmo Cardoso
+##  DOCKER COMPOSE
+
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend  
+      dockerfile: Dockerfile
+    container_name: backend_app
+    restart: always
+    ports:
+      - "3000:3000"  
+    volumes:
+      - ./backend:/app  
+    depends_on:
+      - mysql  
+    environment:
+      DB_HOST: mysql  
+      DB_USER: erasmo  
+      DB_PASSWORD: 3727  
+      DB_NAME: chat  
+    networks:
+      - app_network
+
+  mysql:
+    image: mysql:8.0  
+    container_name: backend_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 3727  
+      MYSQL_USER: erasmo  
+      MYSQL_PASSWORD: 3727  
+      MYSQL_DATABASE: chat  
+    ports:
+      - "3306:3306"  
+    volumes:
+      - mysql_data:/var/lib/mysql  
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql  
+    networks:
+      - app_network
+
+volumes:
+  mysql_data: 
+
+networks:
+  app_network: 
+    driver: bridge

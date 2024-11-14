@@ -1,0 +1,70 @@
+###  Erasmo Cardoso   
+## TESTE API
+
+#################### Users 
+### Get all users
+  OK
+GET http://localhost:3000/api/users
+Accept: application/json
+
+### Create new user OK
+POST http://localhost:3000/api/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "Erasmo C",
+  "email": "erasmo@teste.com",
+  "password_hash": "3727"
+ 
+}
+
+### Update  users OK
+PUT http://localhost:3000/api/users/3
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "Erasmo C atualizado ",
+  "email": "erasmo@teste.com atualizado",
+  "password_hash": "3727 atualizado"
+ 
+}
+
+### Delete user  OK
+DELETE http://localhost:3000/api/users/2
+Accept: application/json
+
+
+#####################################################
+###########Mensagens
+
+### Get all messages  OK
+GET http://localhost:3000/api/messages
+Accept: application/json
+
+### Create messages  OK
+POST http://localhost:3000/api/messages
+Content-Type: application/json
+Accept: application/json
+
+{
+  "sender_id": 3,
+  "receiver_id": 3,
+  "message": "Olá! Como você está?"
+}
+
+### Update messages OK
+PUT http://localhost:3000/api/messages/5
+Content-Type: application/json
+Accept: application/json
+
+{
+  "sender_id": 3,
+  "receiver_id": 3,
+  "message": "Olá! Como você está? ATUALIZADO"
+}
+
+### Delete messages  OK
+DELETE http://localhost:3000/api/messages/6
+Accept: application/json
