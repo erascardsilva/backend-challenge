@@ -6,6 +6,7 @@ Este projeto consiste em um backend para manipulação de dados e integração c
 
 A estrutura de pastas do projeto é a seguinte:
 
+```plaintext
 backend-challenge/
 ├── backend/
 │   ├── dist/                    # Diretório de arquivos compilados (caso use TypeScript)
@@ -39,8 +40,11 @@ backend-challenge/
 │   └── elasticsearch.yml        # Arquivo de configuração do ElasticSearch
 ├── sql/                         # Scripts de banco de dados (ex: criação de tabelas, inicialização)
 │   └── init.sql                 # Script para inicializar o banco de dados
-└── front-app/                   # Aplicação frontend (caso tenha)
-    ├── ...                      # Arquivos relacionados ao frontend
+└── front-app/                   # Aplicação frontend
+    ├── ...                     
+
+```
+        
 
 
 ## Função de Cada Arquivo
