@@ -1,14 +1,21 @@
 {
   "compilerOptions": {
-    "target": "ES2020",                             
-    "module": "CommonJS",                           
-    "outDir": "./dist",                             
-    "rootDir": "./src",                            
-    "strict": true,                                 
-    "esModuleInterop": true,                       
-    "skipLibCheck": true,                           
-    "forceConsistentCasingInFileNames": true,      
-    "lib": ["esnext", "dom"]                        
+    "target": "ES2020",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+    "noEmitOnError": true,
+    "lib": ["esnext", "dom"],
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "baseUrl": "./" 
   },
   "include": [
     "src/**/*.ts"

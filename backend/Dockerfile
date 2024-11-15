@@ -1,24 +1,21 @@
 ### Erasmo Cardoso
 #  Dockerfile TypeScript
-FROM node:18
+FROM node:18-alpine
 
-# diretório de trabalho 
+# Definir diretório de trabalho
 WORKDIR /usr/src/app
 
-#  package.json e package-lock.json
+# Copiar apenas os arquivos necessários para instalar dependências
 COPY package*.json ./
 
-#  dependências
+# Instalar dependências
 RUN npm install
 
-# Copiar o restante do código para o container
+# Copiar o restante do código para o contêiner
 COPY . .
 
-# Rodar o build do TypeScript
-RUN npm run build  
-
-# Expor
+# Expor a porta usada pelo servidor
 EXPOSE 3000
 
-# App
-CMD ["node", "dist/app.js"]
+# Comando padrão para o ambiente de desenvolvimento
+CMD ["npm", "run", "dev"]

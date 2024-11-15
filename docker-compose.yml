@@ -1,4 +1,4 @@
-###  Erasmo Cardoso
+## Erasmo Cardoso
 
 version: '3.8'
 
@@ -13,15 +13,20 @@ services:
       - "3000:3000"  
     volumes:
       - ./backend:/usr/src/app  
+      - /usr/src/app/node_modules 
+    command: npm run dev  
     depends_on:
       - mysql  
       - elasticsearch
+      - redis  
     environment:
       DB_HOST: mysql  
       DB_USER: erasmo  
       DB_PASSWORD: 3727  
       DB_NAME: chat  
       ELASTIC_HOST: http://backend_elasticsearch:9200
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     networks:
       - app_network
 
@@ -59,8 +64,20 @@ services:
     networks:
       - app_network
 
+  redis:  
+    image: redis:7.0-alpine  
+    container_name: backend_redis
+    restart: always
+    ports:
+      - "6379:6379"  
+    volumes:
+      - redis_data:/data  
+    networks:
+      - app_network
+
 volumes:
   mysql_data:
+  redis_data:  
 
 networks:
   app_network:
