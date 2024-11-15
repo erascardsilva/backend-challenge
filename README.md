@@ -1,7 +1,60 @@
 # Backend Challenge
 
-Este projeto consiste em um backend para manipulação de dados e integração com vários serviços, como MySQL, Redis e ElasticSearch. A estrutura do projeto foi projetada para separar claramente as responsabilidades e facilitar a manutenção.
+Este projeto implementa uma aplicação com autenticação segura, chat em tempo real e gerenciamento de dados utilizando uma arquitetura moderna baseada em containers e tecnologias robustas.
 
+---
+
+## **Requisitos**
+
+### **Infraestrutura**
+- **Docker Compose**: Gerenciamento de containers e orquestração de serviços.
+- **Docker**: Conteinerização para padronização e portabilidade do ambiente.
+
+### **Ferramentas de Teste**
+- **API REST**: Padrão de comunicação entre serviços e endpoints.
+
+---
+
+### **Tecnologias Utilizadas**
+
+#### **Back-End**
+- **Node.js**: Ambiente de execução JavaScript no servidor.
+- **Express**: Framework para criação de APIs RESTful.
+- **TypeScript**: Superset do JavaScript com tipagem estática para maior segurança e produtividade.
+
+#### **Banco de Dados**
+- **MySQL**: Banco de dados relacional para armazenar e gerenciar informações da aplicação.
+
+#### **Cache e Mensageria**
+- **Redis**: Armazenamento em cache e suporte para comunicação em tempo real.
+
+#### **Busca Avançada**
+- **ElasticSearch**: Ferramenta de busca avançada para indexação e pesquisa eficiente.
+
+---
+
+## **Configuração e Execução**
+
+### **Pré-requisitos**
+- **Docker** e **Docker Compose** instalados no sistema.
+
+### **Passos para Configuração**
+1. Clone este repositório:
+   ```bash
+   git clone <URL_DO_REPOSITORIO>
+   cd backend-challenge
+   docker-compose up --build
+   ```
+
+## **Estrutura do Projeto**
+
+- **`backend/`**: Contém o código do servidor Node.js com TypeScript.
+- **`mysql/`**: Configurações para o banco de dados MySQL.
+- **`elastic/`**: Arquivos relacionados ao ElasticSearch.
+- **`redis/`**: Configuração e integração com Redis.
+- **`api.rest`**: Arquivo para testar os endpoints da API REST.
+
+---
 ## Estrutura de Pastas
 
 A estrutura de pastas do projeto é a seguinte:
@@ -9,49 +62,47 @@ A estrutura de pastas do projeto é a seguinte:
 ```plaintext
 backend-challenge/
 ├── backend/
-│   ├── dist/                    # Diretório de arquivos compilados (caso use TypeScript)
+│   ├── dist/                    # Diretório de arquivos compilados 
 │   ├── Dockerfile                # Arquivo para configurar a imagem Docker do backend
-│   ├── env.txt                  # Arquivo de variáveis de ambiente (não versionado por segurança)
-│   ├── node_modules/             # Dependências do projeto (gerado pelo npm ou yarn)
+│   ├──.env                      # Arquivo de variáveis de ambiente 
+│   |          
 │   ├── package.json             # Contém informações do projeto e dependências do backend
 │   ├── package-lock.json        # Arquivo gerado automaticamente para garantir versões fixas de dependências
 │   ├── src/                     # Código-fonte do backend
 │   │   ├── app.ts               # Arquivo principal de configuração e execução do app
 │   │   ├── config/              # Arquivos de configuração para conexões (DB, Redis, Elasticsearch)
-│   │   │   ├── db.ts            # Configurações de conexão com o banco de dados (MySQL ou similar)
+│   │   │   ├── db.ts            # Configurações de conexão com o banco de dados (MySQL)
 │   │   │   ├── elastic.ts       # Configurações de conexão com o ElasticSearch
 │   │   │   └── redis.ts         # Configurações de conexão com o Redis
 │   │   ├── controllers/         # Arquivos responsáveis pela lógica das rotas
-│   │   │   ├── messageController.ts  # Lógica para manipulação de mensagens (ex: CRUD)
-│   │   │   └── userController.ts     # Lógica para manipulação de usuários (ex: CRUD)
+│   │   │   ├── messageController.ts  # Lógica para manipulação de mensagens 
+│   │   │   └── userController.ts     # Lógica para manipulação de usuários 
 │   │   ├── models/              # Arquivos de definição de modelos de dados
 │   │   │   ├── message.ts       # Definição do modelo de dados para mensagens
 │   │   │   └── userModels.ts    # Definição do modelo de dados para usuários
 │   │   ├── routes/              # Arquivo que define as rotas e os controladores
 │   │   │   └── routes.ts        # Define todas as rotas e mapeia para os controladores
 │   │   ├── service/             # Lógica de serviços utilizados por controladores
-│   │   │   ├── syncService.ts   # Serviço para sincronização de dados (ex: integração com APIs externas)
-│   │   │   └── userService.ts   # Serviço para lógica de usuários (ex: autenticação, validação)
-│   │   ├── ws.ts               # Arquivo para configuração de WebSockets (se utilizado)
+│   │   │   ├── syncService.ts   # Serviço para sincronização de dados 
+│   │   │   └── userService.ts   # Serviço para lógica de usuários 
+│   │   ├── ws.ts               # Arquivo para configuração de WebSockets 
 │   ├── tsconfig.json            # Arquivo de configuração do TypeScript
-├── docker-compose.yml           # Arquivo para orquestrar containers (backend, banco de dados, etc.)
+├── docker-compose.yml           # Arquivo para orquestrar containers 
 ├── elastic/                     # Configurações específicas do ElasticSearch
 │   ├── Dockerfile               # Arquivo para configurar o container do ElasticSearch
 │   └── elasticsearch.yml        # Arquivo de configuração do ElasticSearch
-├── sql/                         # Scripts de banco de dados (ex: criação de tabelas, inicialização)
+├── sql/                         # Scripts de banco de dados 
 │   └── init.sql                 # Script para inicializar o banco de dados
 └── front-app/                   # Aplicação frontend
     ├── ...                     
 
 ```
-        
-
 
 ## Função de Cada Arquivo
 
 - **backend/**: Contém o código-fonte principal do backend.
 
-- **dist/**: Diretório onde ficam os arquivos compilados (caso o projeto utilize TypeScript).
+- **dist/**: Diretório onde ficam os arquivos compilados .
 
 - **Dockerfile**: Define a configuração do container Docker para o backend.
 
@@ -70,11 +121,11 @@ backend-challenge/
   - **service/**: Lógica de negócios da aplicação (como serviços de sincronização de dados ou manipulação de usuários).
   - **ws.ts**: Arquivo para configuração de WebSockets, caso a comunicação em tempo real seja necessária.
 
-- **docker-compose.yml**: Configuração de orquestração de containers (backend, banco de dados, etc.).
+- **docker-compose.yml**: Configuração de orquestração de containers .
 
 - **elastic/**: Contém arquivos relacionados ao ElasticSearch, incluindo configuração e Dockerfile.
 
-- **sql/**: Scripts SQL utilizados para inicializar o banco de dados (como a criação de tabelas).
+- **sql/**: Scripts SQL utilizados para inicializar o banco de dados .
 
 
 ## Banco de Dados MYSQL
@@ -82,6 +133,7 @@ backend-challenge/
 **Estrutura**
 
 ```plaintext
+
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,                
     username VARCHAR(50) NOT NULL,                     
@@ -101,5 +153,6 @@ CREATE TABLE IF NOT EXISTS messages (
     FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 ```
 ***Demais detalhes em = "SQL/init.sql"***
