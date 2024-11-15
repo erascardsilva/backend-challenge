@@ -1,9 +1,8 @@
 //  Erasmo Cardoso
-import { Request, RequestHandler, Response } from 'express';
+import { Request, Response } from 'express';
 import { createPool } from '../config/db';
 import * as userService from '../service/userService';
 import { User } from '../models/userModels';
-import redisClient from '@/config/redis';
 
 const pool = createPool();
 
@@ -33,7 +32,7 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
 
         //cria um objeto do tipo User
         const newUser: User = {
-            id: result.insertId, 
+            id: result.insertId,
             username,
             email,
             password_hash
@@ -46,8 +45,8 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
         await conn.commit();
 
         // sucesso
-        res.status(201).json({ 
-            message: `Usuário criado com sucesso no banco de dados. Índice no Elasticsearch: ${elasticResponse}` 
+        res.status(201).json({
+            message: `Usuário criado com sucesso no banco de dados. Índice no Elasticsearch: ${elasticResponse}`
         });
     } catch (err) {
         if (conn) await conn.rollback(); // Rollback err
@@ -69,20 +68,19 @@ export const updateUser = async (req: Request, res: Response): Promise<void> => 
         // Atualizar o usuário no banco de dados
         await userService.updateUser(conn, parseInt(id), username, email, password_hash);
 
-        // Atualizar no Elasticsearch
-        const elasticResponse = await userService.updateUserInElastic(parseInt(id), username, email, password_hash);
-
         // Commit da transação se tudo der OK
         await conn.commit();
 
+        // Atualizar no Elasticsearch
+        const elasticResponse = await userService.updateUserInElastic(parseInt(id), username, email, password_hash);
+
         // Sucesso
-        res.json({ 
-            message: `Usuário atualizado com sucesso no banco de dados. Atualização no Elasticsearch: ${elasticResponse}` 
+        res.json({
+            message: `Usuário atualizado com sucesso no banco de dados. Atualização no Elasticsearch: ${elasticResponse}`
         });
     } catch (err) {
         if (conn) await conn.rollback(); // Rollback errrrr
-        console.error(err);
-        res.status(500).json({ error: 'Erro ao atualizar usuário.' });
+        
     } finally {
         if (conn) conn.release();
     }
@@ -97,47 +95,20 @@ export const deleteUser = async (req: Request, res: Response): Promise<void> => 
 
         // Excluir o usuário do MYSQL
         await userService.deleteUser(conn, parseInt(id));
-
-        // Excluir no Elasticsearch
-        const elasticResponse = await userService.deleteUserInElastic(parseInt(id));
-
+       
         // Commit da transação se tudo certo
         await conn.commit();
 
+        // Excluir no Elasticsearch
+         const elasticResponse = await userService.deleteUserInElastic(parseInt(id));
         // Sucesso
-        res.json({ 
-            message: `Usuário excluído com sucesso do banco de dados. Exclusão no Elasticsearch: ${elasticResponse}` 
+        res.json({
+            message: `Usuário excluído com sucesso do banco de dados. Exclusão no Elasticsearch: ${elasticResponse}`
         });
     } catch (err) {
         if (conn) await conn.rollback(); // Rollback errrr
-        console.error(err);
-        res.status(500).json({ error: 'Erro ao excluir usuário.' });
+        
     } finally {
         if (conn) conn.release();
-    }
-};
-
-// Redis teste
-export const testRedisCache: RequestHandler = async (req: Request, res: Response): Promise<void> => {
-    const cacheKey = 'testKey';  
-    const cacheValue = 'Redis is working!';
-
-    try {
-        // Tenta obter a chave do cache
-        const cachedValue = await redisClient.get(cacheKey);
-
-        if (cachedValue) {
-            // Se o valor estiver no cache, retorna o valor do cache
-            console.log('Cache hit!');
-            res.json({ message: 'Cache hit!', data: cachedValue });
-        } else {
-            // Se não houver cache, armazene o valor
-            await redisClient.setEx(cacheKey, 3600, cacheValue);  // Expira em 1 hora
-            console.log('Cache miss! Valor armazenado no Redis.');
-            res.json({ message: 'Cache miss! Valor armazenado no Redis.', data: cacheValue });
-        }
-    } catch (err) {
-        console.error('Erro ao acessar o Redis:', err);
-        res.status(500).json({ error: 'Erro ao testar o Redis' });
     }
 };

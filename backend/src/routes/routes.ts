@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import * as userController from '../controllers/userController';
 import * as messageController from '../controllers/messageController';
-
+import * as wsController from '../controllers/wsController';
+import * as redisController from '../controllers/redisController';
 const router = Router();
 
 // ============================ Router USERS ============================
@@ -17,6 +18,9 @@ router.put('/messages/:id', messageController.updateMessage);
 router.delete('/messages/:id', messageController.deleteMessage);
 
 // ============================ Teste Redis ============================
-router.get('/redis', userController.testRedisCache);
+router.get('/redis', redisController.testRedisCache);
+
+//============================= Rota Websocket============================
+router.get('/wstest', wsController.testWebsocket);
 
 export default router;

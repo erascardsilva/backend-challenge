@@ -16,12 +16,12 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const server = createServer(app);
+initializeWebSocket(server);
+
 app.use(cors());
 app.use(express.json());
 app.use('/api', router);
-
-const server = createServer(app);
-initializeWebSocket(server);
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);

@@ -24,13 +24,13 @@ Accept: application/json
 }
 
 ### Update  users OK
-PUT http://localhost:3000/api/users/3
+PUT http://localhost:3000/api/users/28
 Content-Type: application/json
 Accept: application/json
 
 {
     
-    "username": "Erasmo C atualizado",
+    "username": "Erasmo C atualizadoff",
     "email": "erasmo@teste.com atualizado",
     "password_hash": "3727 atualizado"
 }
@@ -38,7 +38,7 @@ Accept: application/json
 
 
 ### Delete user  OK
-DELETE http://localhost:3000/api/users/37
+DELETE http://localhost:3000/api/users/27
 Accept: application/json
 
 
@@ -77,16 +77,29 @@ Accept: application/json
 
 
 
-# Teste de Conexão com o Redis e Operações Básicas
 
-# Endpoint para testar a leitura e gravação de cache no Redis
-###
-GET http://localhost:3000/api/redis
+
+
+######### WS ####
+GET http://localhost:3000/api/wstest
+Accept: application/json
+
+
+
+#### Teste de Conexão e Operação de Cache com Redis
+
+# Testando Gravar e Ler um Valor no Redis
+POST http://localhost:3000/api/redis
 Content-Type: application/json
 
 {
   "key": "testKey",
-  "value": "'Redis is working!"
+  "value": "Redis is working!"
 }
 
 ###
+
+# Testando
+GET http://localhost:3000/api/redis?key=testKey
+Accept: application/json
+

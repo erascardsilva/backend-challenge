@@ -1,22 +1,18 @@
 // Erasmo Cardoso Websocket
+import WebSocket from 'ws';
+import { Server } from 'http';
 
-import { WebSocketServer } from 'ws';
+export let wss: WebSocket.Server;
 
-export function initializeWebSocket(server: any) {
-    const wss = new WebSocketServer({ server });
+export const initializeWebSocket = (server: Server) => {
+  wss = new WebSocket.Server({ server });
 
-    wss.on('connection', (ws) => {
-        console.log('WebSocket conectado.');
-
-        ws.on('message', (message) => {
-            console.log('Received:', message);
-            ws.send(`Echo: ${message}`);
-        });
-
-        ws.on('close', () => {
-            console.log('WebSocket conexao fechada.');
-        });
+  wss.on('connection', (ws) => {
+    console.log('Novo cliente WebSocket conectado');
+    ws.on('message', (message) => {
+      console.log('Mensagem recebida: %s', message);
     });
 
-    return wss;
-}
+    ws.send(JSON.stringify({ message: 'Bem-vindo ao WebSocket!' }));
+  });
+};

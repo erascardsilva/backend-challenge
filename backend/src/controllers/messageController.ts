@@ -1,7 +1,7 @@
 //Erasmo Cardoso
 
 import { Request, Response } from 'express';
-import * as messageModel from '../models/message';
+import * as messageService from '../service/message';
 import { createPool } from '../config/db';
 
 const pool = createPool();
@@ -10,7 +10,7 @@ export const getAllMessages = async (req: Request, res: Response) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        const messages = await messageModel.getAllMessages(conn);
+        const messages = await messageService.getAllMessages(conn);
         res.json(messages);
     } catch (err) {
         console.error(err);
@@ -26,7 +26,7 @@ export const createMessage = async (req: Request, res: Response) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        const result = await messageModel.createMessage(conn, sender_id, receiver_id, message);
+        const result = await messageService.createMessage(conn, sender_id, receiver_id, message);
         res.status(201).json({ message: 'Mensagem criada com sucesso.', result });
     } catch (err) {
         console.error('Erro ao criar mensagem:', err);
@@ -43,7 +43,7 @@ export const updateMessage = async (req: Request, res: Response) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        await messageModel.updateMessage(conn, parseInt(id), message);
+        await messageService.updateMessage(conn, parseInt(id), message);
         res.json({ message: 'Mensagem atualizada com sucesso.' });
     } catch (err) {
         console.error(err);
@@ -59,7 +59,7 @@ export const deleteMessage = async (req: Request, res: Response) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        await messageModel.deleteMessage(conn, parseInt(id));
+        await messageService.deleteMessage(conn, parseInt(id));
         res.json({ message: 'Mensagem excluída com sucesso.' });
     } catch (err) {
         console.error(err);
