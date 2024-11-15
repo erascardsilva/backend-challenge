@@ -102,4 +102,4 @@ CREATE TABLE IF NOT EXISTS messages (
     FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
-***Demais detalhes ana pasta SQL/init.sql***
+***Demais detalhes em = "SQL/init.sql"***
