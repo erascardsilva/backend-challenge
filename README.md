@@ -41,7 +41,7 @@ Este projeto implementa uma aplicação com autenticação segura, chat em tempo
 ### **Passos para Configuração**
 1. Clone este repositório:
    ```bash
-   git clone <URL_DO_REPOSITORIO>
+   git clone erascardsilva/backend-challenge
    cd backend-challenge
    docker-compose up --build
    ```
