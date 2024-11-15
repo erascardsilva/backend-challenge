@@ -1,8 +1,9 @@
 //  Erasmo Cardoso
-import { Request, Response } from 'express';
+import { Request, RequestHandler, Response } from 'express';
 import { createPool } from '../config/db';
 import * as userService from '../service/userService';
 import { User } from '../models/userModels';
+import redisClient from '@/config/redis';
 
 const pool = createPool();
 
@@ -113,5 +114,30 @@ export const deleteUser = async (req: Request, res: Response): Promise<void> => 
         res.status(500).json({ error: 'Erro ao excluir usuário.' });
     } finally {
         if (conn) conn.release();
+    }
+};
+
+// Redis teste
+export const testRedisCache: RequestHandler = async (req: Request, res: Response): Promise<void> => {
+    const cacheKey = 'testKey';  
+    const cacheValue = 'Redis is working!';
+
+    try {
+        // Tenta obter a chave do cache
+        const cachedValue = await redisClient.get(cacheKey);
+
+        if (cachedValue) {
+            // Se o valor estiver no cache, retorna o valor do cache
+            console.log('Cache hit!');
+            res.json({ message: 'Cache hit!', data: cachedValue });
+        } else {
+            // Se não houver cache, armazene o valor
+            await redisClient.setEx(cacheKey, 3600, cacheValue);  // Expira em 1 hora
+            console.log('Cache miss! Valor armazenado no Redis.');
+            res.json({ message: 'Cache miss! Valor armazenado no Redis.', data: cacheValue });
+        }
+    } catch (err) {
+        console.error('Erro ao acessar o Redis:', err);
+        res.status(500).json({ error: 'Erro ao testar o Redis' });
     }
 };

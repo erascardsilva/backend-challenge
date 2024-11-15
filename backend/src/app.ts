@@ -9,6 +9,7 @@ import dotenv from 'dotenv';
 import './config/elastic';
 import './service/syncService';
 import './config/db';
+import './config/redis';
      
 
 dotenv.config();

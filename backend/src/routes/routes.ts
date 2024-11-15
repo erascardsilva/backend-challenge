@@ -1,4 +1,3 @@
-// Erasmo Cardoso 
 import { Router } from 'express';
 import * as userController from '../controllers/userController';
 import * as messageController from '../controllers/messageController';
@@ -16,5 +15,8 @@ router.get('/messages', messageController.getAllMessages);
 router.post('/messages', messageController.createMessage);
 router.put('/messages/:id', messageController.updateMessage);
 router.delete('/messages/:id', messageController.deleteMessage);
+
+// ============================ Teste Redis ============================
+router.get('/redis', userController.testRedisCache);
 
 export default router;
