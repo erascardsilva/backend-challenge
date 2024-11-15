@@ -5,20 +5,6 @@
 GET http://localhost:9200
 Accept: application/json
 
-# Teste de Conexão com o Redis e Operações Básicas
-
-# Endpoint para testar a leitura e gravação de cache no Redis
-###
-GET http://localhost:3000/api/redis
-Content-Type: application/json
-
-{
-  "key": "testKey",
-  "value": "'Redis is working!"
-}
-
-###
-
 #################### Users 
 ### Get all users  OK OK
   
@@ -88,3 +74,19 @@ Accept: application/json
 ### Delete messages  OK
 DELETE http://localhost:3000/api/messages/6
 Accept: application/json
+
+
+
+# Teste de Conexão com o Redis e Operações Básicas
+
+# Endpoint para testar a leitura e gravação de cache no Redis
+###
+GET http://localhost:3000/api/redis
+Content-Type: application/json
+
+{
+  "key": "testKey",
+  "value": "'Redis is working!"
+}
+
+###
