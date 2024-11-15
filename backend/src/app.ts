@@ -5,8 +5,10 @@ import express from 'express';
 import 'web-streams-polyfill';
 import cors from 'cors';
 import router from './routes/routes';
-import dotenv from 'dotenv'; 
-
+import dotenv from 'dotenv';
+import './config/elastic';
+import './service/syncService';
+import './config/db';
 
 dotenv.config();
 

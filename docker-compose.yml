@@ -1,3 +1,5 @@
+###  Erasmo Cardoso
+
 version: '3.8'
 
 services:
@@ -19,7 +21,7 @@ services:
       DB_USER: erasmo  
       DB_PASSWORD: 3727  
       DB_NAME: chat  
-      ELASTIC_HOST: http://backend_elasticsearch:9200  # Usando o nome do serviço e HTTP
+      ELASTIC_HOST: http://backend_elasticsearch:9200
     networks:
       - app_network
 
@@ -49,7 +51,7 @@ services:
     ports:
       - "9200:9200"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9200"]
+      test: ["CMD", "curl", "-f", "http://backend_elasticsearch:9200"]
       interval: 30s
       retries: 3
       start_period: 10s

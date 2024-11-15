@@ -1,0 +1,26 @@
+{
+    "configurations": [
+        {
+            "type": "node",
+            "name": "debug userService.ts",
+            "request": "launch",
+            "args": [],
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ],
+            "program": "/home/erasmo/GITHUB/backend-challenge/backend/src/service/userService.ts"
+        },
+        {
+            "type": "node",
+            "name": "debug app.ts",
+            "request": "launch",
+            "args": [],
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ],
+            "program": "/home/erasmo/GITHUB/backend-challenge/backend/src/app.ts"
+        }
+    ]
+}

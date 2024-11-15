@@ -1,13 +1,18 @@
 ###  Erasmo Cardoso   
 ## TESTE API
 
+### elastic  OK
+GET http://localhost:9200
+Accept: application/json
+
+
 #################### Users 
-### Get all users  OK
+### Get all users  OK OK
   
 GET http://localhost:3000/api/users
 Accept: application/json
 
-### Create new user OK
+### Create new user OK OK
 POST http://localhost:3000/api/users
 Content-Type: application/json
 Accept: application/json
@@ -25,14 +30,16 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "username": "Erasmo C atualizado ",
-  "email": "erasmo@teste.com atualizado",
-  "password_hash": "3727 atualizado"
- 
+    
+    "username": "Erasmo C atualizado",
+    "email": "erasmo@teste.com atualizado",
+    "password_hash": "3727 atualizado"
 }
 
+
+
 ### Delete user  OK
-DELETE http://localhost:3000/api/users/21
+DELETE http://localhost:3000/api/users/37
 Accept: application/json
 
 
@@ -51,7 +58,7 @@ Accept: application/json
 {
   "sender_id": 3,
   "receiver_id": 3,
-  "message": "Olá! Como você está?"
+  "message": "Olá! Como você está? HAHA"
 }
 
 ### Update messages OK
