@@ -17,8 +17,6 @@ Content-Type: application/json
   "value": "'Redis is working!"
 }
 
-
-
 ###
 
 #################### Users 
