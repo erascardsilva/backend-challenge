@@ -93,8 +93,11 @@ backend-challenge/
 │   └── elasticsearch.yml        # Arquivo de configuração do ElasticSearch
 ├── sql/                         # Scripts de banco de dados 
 │   └── init.sql                 # Script para inicializar o banco de dados
-└── front-app/                   # Aplicação frontend
-    ├── ...                     
+│── front-app/                   # Aplicação frontend
+│   ├── index.html                    
+│___api.rest                     # Testar Rotas     
+│
+│
 
 ```
 

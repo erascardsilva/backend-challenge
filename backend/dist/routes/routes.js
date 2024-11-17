@@ -23,10 +23,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// Erasmo Cardoso 
 const express_1 = require("express");
 const userController = __importStar(require("../controllers/userController"));
 const messageController = __importStar(require("../controllers/messageController"));
+const wsController = __importStar(require("../controllers/wsController"));
+const redisController = __importStar(require("../controllers/redisController"));
 const router = (0, express_1.Router)();
 // ============================ Router USERS ============================
 router.get('/users', userController.getAllUsers);
@@ -38,4 +39,9 @@ router.get('/messages', messageController.getAllMessages);
 router.post('/messages', messageController.createMessage);
 router.put('/messages/:id', messageController.updateMessage);
 router.delete('/messages/:id', messageController.deleteMessage);
+// ============================ Teste Redis ============================
+router.get('/redis', redisController.testRedisCache);
+//============================= Rota Websocket============================
+router.get('/wstest', wsController.testWebsocket);
 exports.default = router;
+//# sourceMappingURL=routes.js.map

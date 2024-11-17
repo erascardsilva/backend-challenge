@@ -77,16 +77,22 @@ Accept: application/json
 
 
 
+### Websocket
+WS ws://localhost:8080
+Content-Type: application/json
+
+{
+    "message": "Olá WebSocket!"
+}
 
 
+#### Redis
 
-######### WS ####
-GET http://localhost:3000/api/wstest
+
+# Testando
+GET http://localhost:3000/api/redis?key=testKey
 Accept: application/json
 
-
-
-#### Teste de Conexão e Operação de Cache com Redis
 
 # Testando Gravar e Ler um Valor no Redis
 POST http://localhost:3000/api/redis
@@ -98,8 +104,3 @@ Content-Type: application/json
 }
 
 ###
-
-# Testando
-GET http://localhost:3000/api/redis?key=testKey
-Accept: application/json
-

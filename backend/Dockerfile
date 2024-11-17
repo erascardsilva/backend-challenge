@@ -1,5 +1,4 @@
-### Erasmo Cardoso
-#  Dockerfile TypeScript
+# Dockerfile TypeScript
 FROM node:18-alpine
 
 # Definir diretório de trabalho
@@ -14,8 +13,8 @@ RUN npm install
 # Copiar o restante do código para o contêiner
 COPY . .
 
-# Expor a porta usada pelo servidor
-EXPOSE 3000
+# Expor as portas usadas pelos servidores
+EXPOSE 3000 8080
 
 # Comando padrão para o ambiente de desenvolvimento
 CMD ["npm", "run", "dev"]

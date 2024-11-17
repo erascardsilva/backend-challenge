@@ -22,21 +22,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUser = exports.updateUser = exports.createUser = exports.getAllUsers = void 0;
-const userModel = __importStar(require("../models/userModels"));
 const db_1 = require("../config/db");
-const elastic_1 = __importDefault(require("../config/elastic"));
+const userService = __importStar(require("../service/userService"));
 const pool = (0, db_1.createPool)();
 const getAllUsers = async (req, res) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        // Buscar os usuários diretamente no banco de dados
-        const users = await userModel.getAllUsers(conn);
+        const users = await userService.getAllUsers(conn);
         res.json(users);
     }
     catch (err) {
@@ -54,18 +49,28 @@ const createUser = async (req, res) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        const result = await userModel.createUser(conn, username, email, password_hash);
-        // Indexar o novo usuário no Elasticsearch
-        await elastic_1.default.index({
-            index: 'users', // Nome do índice
-            body: {
-                username,
-                email
-            }
+        await conn.beginTransaction(); //  transação
+        // Criar o usuário 
+        const result = await userService.createUser(conn, username, email, password_hash);
+        //cria um objeto do tipo User
+        const newUser = {
+            id: result.insertId,
+            username,
+            email,
+            password_hash
+        };
+        // Indexar o usuário no Elasticsearch
+        const elasticResponse = await userService.indexUserInElastic(newUser);
+        // Commit da transação se tudo estiver OK
+        await conn.commit();
+        // sucesso
+        res.status(201).json({
+            message: `Usuário criado com sucesso no banco de dados. Índice no Elasticsearch: ${elasticResponse}`
         });
-        res.status(201).json({ message: 'Usuário criado com sucesso.', result });
     }
     catch (err) {
+        if (conn)
+            await conn.rollback(); // Rollback err
         console.error(err);
         res.status(500).json({ error: 'Erro ao criar usuário.' });
     }
@@ -77,27 +82,25 @@ const createUser = async (req, res) => {
 exports.createUser = createUser;
 const updateUser = async (req, res) => {
     const { id } = req.params;
-    const { username, email } = req.body;
+    const { username, email, password_hash } = req.body;
     let conn;
     try {
         conn = await pool.getConnection();
-        await userModel.updateUser(conn, parseInt(id), username, email);
+        await conn.beginTransaction(); //  transação
+        // Atualizar o usuário no banco de dados
+        await userService.updateUser(conn, parseInt(id), username, email, password_hash);
+        // Commit da transação se tudo der OK
+        await conn.commit();
         // Atualizar no Elasticsearch
-        await elastic_1.default.update({
-            index: 'users',
-            id: id.toString(),
-            body: {
-                doc: {
-                    username,
-                    email
-                }
-            }
+        const elasticResponse = await userService.updateUserInElastic(parseInt(id), username, email, password_hash);
+        // Sucesso
+        res.json({
+            message: `Usuário atualizado com sucesso no banco de dados. Atualização no Elasticsearch: ${elasticResponse}`
         });
-        res.json({ message: 'Usuário atualizado com sucesso.' });
     }
     catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Erro ao atualizar usuário.' });
+        if (conn)
+            await conn.rollback(); // Rollback errrrr
     }
     finally {
         if (conn)
@@ -110,17 +113,21 @@ const deleteUser = async (req, res) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        await userModel.deleteUser(conn, parseInt(id));
-        // Deletar o usuário do Elasticsearch
-        await elastic_1.default.delete({
-            index: 'users',
-            id: id.toString()
+        await conn.beginTransaction(); //  transação
+        // Excluir o usuário do MYSQL
+        await userService.deleteUser(conn, parseInt(id));
+        // Commit da transação se tudo certo
+        await conn.commit();
+        // Excluir no Elasticsearch
+        const elasticResponse = await userService.deleteUserInElastic(parseInt(id));
+        // Sucesso
+        res.json({
+            message: `Usuário excluído com sucesso do banco de dados. Exclusão no Elasticsearch: ${elasticResponse}`
         });
-        res.json({ message: 'Usuário excluído com sucesso.' });
     }
     catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Erro ao excluir usuário.' });
+        if (conn)
+            await conn.rollback(); // Rollback errrr
     }
     finally {
         if (conn)
@@ -128,3 +135,4 @@ const deleteUser = async (req, res) => {
     }
 };
 exports.deleteUser = deleteUser;
+//# sourceMappingURL=userController.js.map

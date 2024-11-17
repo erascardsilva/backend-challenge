@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #output {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>WebSocket Test</h1>
+    <input id="messageInput" type="text" placeholder="Type your message" />
+    <button id="sendButton">Send</button>
+    <pre id="output"></pre>
+
+    <script>
+        const socket = new WebSocket('ws://localhost:8080'); 
+
+        const output = document.getElementById('output');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+
+        const appendMessage = (message) => {
+            output.textContent += `${message}\n`;
+            output.scrollTop = output.scrollHeight; 
+        };
+
+        socket.addEventListener('open', () => {
+            appendMessage('Connected to WebSocket server');
+        });
+
+        socket.addEventListener('message', (event) => {
+            appendMessage(`Message received: ${event.data}`);
+        });
+
+        socket.addEventListener('close', () => {
+            appendMessage('WebSocket connection closed');
+        });
+
+        socket.addEventListener('error', (error) => {
+            appendMessage(`WebSocket error: ${error.message || 'Unknown error'}`);
+        });
+
+        sendButton.addEventListener('click', () => {
+            const message = messageInput.value.trim();
+            if (message && socket.readyState === WebSocket.OPEN) {
+                socket.send(message);
+                appendMessage(`Message sent: ${message}`);
+                messageInput.value = ''; 
+            } else if (socket.readyState !== WebSocket.OPEN) {
+                appendMessage('Cannot send message: WebSocket is not connected');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteMessage = exports.updateMessage = exports.createMessage = exports.getAllMessages = void 0;
-const messageModel = __importStar(require("../models/message"));
+const messageService = __importStar(require("../service/message"));
 const db_1 = require("../config/db");
 const pool = (0, db_1.createPool)();
 //  Search messages
@@ -33,7 +33,7 @@ const getAllMessages = async (req, res) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        const messages = await messageModel.getAllMessages(conn);
+        const messages = await messageService.getAllMessages(conn);
         res.json(messages);
     }
     catch (err) {
@@ -52,7 +52,7 @@ const createMessage = async (req, res) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        const result = await messageModel.createMessage(conn, sender_id, receiver_id, message);
+        const result = await messageService.createMessage(conn, sender_id, receiver_id, message);
         res.status(201).json({ message: 'Mensagem criada com sucesso.', result });
     }
     catch (err) {
@@ -72,7 +72,7 @@ const updateMessage = async (req, res) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        await messageModel.updateMessage(conn, parseInt(id), message);
+        await messageService.updateMessage(conn, parseInt(id), message);
         res.json({ message: 'Mensagem atualizada com sucesso.' });
     }
     catch (err) {
@@ -91,7 +91,7 @@ const deleteMessage = async (req, res) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        await messageModel.deleteMessage(conn, parseInt(id));
+        await messageService.deleteMessage(conn, parseInt(id));
         res.json({ message: 'Mensagem excluída com sucesso.' });
     }
     catch (err) {
@@ -104,3 +104,4 @@ const deleteMessage = async (req, res) => {
     }
 };
 exports.deleteMessage = deleteMessage;
+//# sourceMappingURL=messageController.js.map

@@ -1,5 +1,5 @@
 // Erasmo Cardoso   Principal
- 
+
 import './config/elastic';
 import './service/syncService';
 import './config/db';
@@ -14,17 +14,23 @@ import { initializeWebSocket } from './ws';
 
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 3000;
+
+const EXPRESS_PORT = process.env.PORT || 3000;  
+const WS_PORT = process.env.WS_PORT || 8080;   
 
 const server = createServer(app);
+
 initializeWebSocket(server);
 
 app.use(cors());
 app.use(express.json());
 app.use('/api', router);
 
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+server.listen(EXPRESS_PORT, () => {
+  console.log(`App Express rodando na porta ${EXPRESS_PORT}`);
 });
 
-export default app;
+const wsServer = createServer();
+wsServer.listen(WS_PORT, () => {
+  console.log(`Servidor WebSocket rodando na porta ${WS_PORT}`);
+});
